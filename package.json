@@ -75,5 +75,6 @@
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9"
   },
-  "types": "dist/my-app-utility.d.ts"
+  "types": "dist/my-app-utility.d.ts",
+  "version": "1.0.0"
 }
