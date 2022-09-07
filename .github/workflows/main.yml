@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    name: Test project
+    name: Test micro frontend utility
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,8 +41,28 @@ jobs:
         uses: ./.github/actions/install_deps
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Release
+      - name: Release new version
         run: yarn semantic-release
         env:
           GH_TOKEN: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           HUSKY: 0
+      - name: Build package
+        run: yarn build-npm
+      - name: Set NPM publish token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release to NPM
+        run: npm publish --access=public
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Remove tsconfig options for NPM
+        run: rm -rf dist && sed -i.bak -e '6,7d' tsconfig.json
+      - name: Build
+        run: yarn build
+      - name: Deploy to S3
+        run: aws s3 sync ./dist s3://mf-todo
