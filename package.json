@@ -1,5 +1,21 @@
 {
   "name": "@my-app/utility",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwardramirez31/micro-frontend-utility-module"
+  },
+  "description": "Micro frontend utility module",
+  "keywords": [
+    "utility",
+    "micro frontend",
+    "single-spa"
+  ],
+  "license": "ISC",
+  "author": "Edward Ramirez",
+  "bugs": {
+    "url": "https://github.com/edwardramirez31/micro-frontend-utility-module/issues"
+  },
+  "homepage": "https://github.com/edwardramirez31/micro-frontend-utility-module#readme",
   "scripts": {
     "start": "webpack serve",
     "start:standalone": "webpack serve --env standalone",
@@ -13,7 +29,8 @@
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
     "prepare": "husky install",
     "coverage": "cross-env BABEL_ENV=test jest --coverage",
-    "build:types": "tsc"
+    "build-npm": "tsc",
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -75,6 +92,10 @@
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9"
   },
+  "main": "dist/my-app-utility.js",
   "types": "dist/my-app-utility.d.ts",
+  "files": [
+    "dist"
+  ],
   "version": "1.0.0"
 }

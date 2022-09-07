@@ -53,7 +53,11 @@ module.exports = (webpackConfigEnv, argv) => {
 import { utilityName } from '@${PROJECT_NAME}/{UTILITY_MODULE_NAME}';
 ```
 
-6. Run `yarn start` to run your root config module
+6. If you are using TypeScript at your micro frontend, it's recommended to use NPM when running `./setup.sh` and then run `yarn add @${PROJECT_NAME}/{UTILITY_MODULE_NAME}`
+
+> This way, TypeScript will infer your types and code. Also, Jest won't fail when testing and not detecting a valid import of the utility
+
+7. Run `yarn start` to run your root config module
 
 ## Important notes
 
@@ -65,8 +69,78 @@ import { utilityName } from '@${PROJECT_NAME}/{UTILITY_MODULE_NAME}';
 
   - This token should have full control of private repositories
 
-- If you don't want to use Semantic Release:
+- Set NPM_TOKEN secret at your repository with an NPM Automation Access Token so that your utility can be deployed to NPM
 
-  - Remove the step at `.github` or the entire folder
-  - Remove `.releaserc` file
-  - Remove `@semantic-release/changelog`, `@semantic-release/git`, `semantic-release` from `package.json`
+> It's highly recommended to publish your package to NPM so that you don't have TypeScript errors about not finding your utility module when it is imported at your micro frontends.
+
+- Your ${PROJECT_NAME} prompted when running ´./setup.sh´ should be the same as your organization or username from NPM. This way, you will avoid errors when executing your GitHub actions pipeline at ´npm publish --access=public´ step
+
+> You can remove ´--access=public´ option from ´npm publish´ if you can publish private packages to NPM
+
+- You can remove the ´.github´ folder if you don't want to use CI / CD GitHub actions for semantic release, publish to NPM, automated testing and deployment.
+
+- Build the project with `yarn build` and deploy the files to a CDN or host to serve those static files.
+
+- This project uses AWS S3 to host the build files. In order to use this feature properly:
+  - Create an IAM user with S3 permissions and setup `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` at repository secrets
+  - Type your bucket name when executing `setup.sh`
+  - Create an S3 bucket at AWS and change bucket settings according to your needs
+    - Uncheck all options at bucket settings or just whatever is necessary
+    - Change bucket policy allowing externals to get your objects
+    ```
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "s3:GetObject",
+          "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
+        }
+      ]
+    }
+    ```
+    - Add CORS setting so that your root module can fetch your bucket files from local dev machine or production and dev servers
+    ```
+    [
+      {
+          "AllowedHeaders": [
+              "Authorization"
+          ],
+          "AllowedMethods": [
+              "GET",
+              "HEAD"
+          ],
+          "AllowedOrigins": [
+              "http://localhost:3000",
+              "http://{WEB_SERVER_DOMAIN_1}",
+              "https://{WEB_SERVER_DOMAIN_2}",
+          ],
+          "ExposeHeaders": [
+              "Access-Control-Allow-Origin"
+          ]
+      }
+    ]
+    ```
+    - Finally, add your compiled JS utility code at the root module import maps
+    ```html
+    <% if (isLocal) { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@${PROJECT_NAME}/root-config": "//localhost:9000/${PROJECT_NAME}-root-config.js",
+          "@${PROJECT_NAME}/{UTILITY_MODULE_NAME}": "//localhost:${YOUR_PORT}/${PROJECT_NAME}-{UTILITY_MODULE_NAME}.js"
+        }
+      }
+    </script>
+    <% } else { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@${PROJECT_NAME}/root-config": "https://{S3_BUCKET_NAME}.s3.amazonaws.com/${PROJECT_NAME}-root-config.js",
+          "@${PROJECT_NAME}/{UTILITY_MODULE_NAME}": "https://{S3_BUCKET_NAME}.s3.amazonaws.com/${PROJECT_NAME}-{UTILITY_MODULE_NAME}.js"
+        }
+      }
+    </script>
+    <% } %>
+    ```
