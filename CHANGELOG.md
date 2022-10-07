@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.1.0...v1.2.0) (2022-10-07)
+
+
+### Features
+
+* add deploy to AWS action steps ([1afad70](https://github.com/edwardramirez31/micro-frontend-utility-module/commit/1afad70a7733ec2ab3cd0a0fda8dda5515e9281f))
+
 # [1.1.0](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.0.0...v1.1.0) (2022-09-07)
 
 
