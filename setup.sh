@@ -93,6 +93,8 @@ while true; do
 done
 
 sed -i "s/my-app/$project/g" package.json
+sed -i "s/mf-app/$project/g" package.json
+sed -i "s/my-app/$project/g" .github/workflows/main.yml
 sed -i "s/utility/$service/g" package.json
 sed -i "s/my-app-utility/$project-$service/g" tsconfig.json
 sed -i "s/'my-app'/'$project'/g" webpack.config.js
