@@ -1,5 +1,5 @@
 {
-  "name": "@mf-app/utility",
+  "name": "@mf-app/utility-module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/edwardramirez31/micro-frontend-utility-module"

@@ -62,39 +62,10 @@ while true; do
     esac
 done
 
-while true; do
-    read -p "🔷 Do you want to deploy this utility module to S3? [y/N]: " yn
-    case $yn in
-        [Yy]* )
-          bucketValidation=^[a-z0-9.-]+$
-          bucketName=""
-          while ! [[ "${bucketName?}" =~ ${bucketValidation} ]]
-          do
-            read -p "🔷 Enter your S3 Bucket Name: " bucketName
-          done
-          sed -i "s/mf-todo/$bucketName/g" .github/workflows/main.yml
-          echo "⚠️  Don't forget to setup bucket access and ACL so that the root module can get your build file"
-          break
-        ;;
-        [Nn]* )
-          linesToRemove="57,68d"
-          if [[ "$semanticReleaseRemoved" == true ]] && [[ "$npmRemoved" == true ]]; then
-            linesToRemove="44,55d"
-          elif [[ "$semanticReleaseRemoved" == true ]]; then
-            linesToRemove="52,63d"
-          elif [[ "$npmRemoved" == true ]]; then
-            linesToRemove="49,60d"
-          fi
-          sed -i.bak -e $linesToRemove .github/workflows/main.yml && rm .github/workflows/main.yml.bak
-          break
-        ;;
-        * ) echo "Please answer yes or no like: [y/N]";;
-    esac
-done
-
 sed -i "s/my-app/$project/g" package.json
 sed -i "s/mf-app/$project/g" package.json
 sed -i "s/my-app/$project/g" .github/workflows/main.yml
+sed -i "s/utility-module/$service/g" package.json
 sed -i "s/utility/$service/g" package.json
 sed -i "s/my-app-utility/$project-$service/g" tsconfig.json
 sed -i "s/'my-app'/'$project'/g" webpack.config.js
