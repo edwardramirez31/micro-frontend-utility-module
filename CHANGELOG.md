@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.2.1...v1.2.2) (2022-10-07)
+
+
+### Bug Fixes
+
+* rename main and type declarations in package ([41890aa](https://github.com/edwardramirez31/micro-frontend-utility-module/commit/41890aa98bfde4dada3f94559c08e9b1c21da1f2))
+
 ## [1.2.1](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.2.0...v1.2.1) (2022-10-07)
 
 
