@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.2.0...v1.2.1) (2022-10-07)
+
+
+### Bug Fixes
+
+* avoid S3 bucket setup at bash script ([29be67b](https://github.com/edwardramirez31/micro-frontend-utility-module/commit/29be67b7b4d8b54fb32744b795b4125d7e11892a))
+
 # [1.2.0](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.1.0...v1.2.0) (2022-10-07)
 
 
