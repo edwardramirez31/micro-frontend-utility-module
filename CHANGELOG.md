@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.3.0...v1.3.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* setup IMD environments deployment ([8b5f2c3](https://github.com/edwardramirez31/micro-frontend-utility-module/commit/8b5f2c3f958b6a722f78d89e62f687625ed03f29))
+
 # [1.3.0](https://github.com/edwardramirez31/micro-frontend-utility-module/compare/v1.2.2...v1.3.0) (2022-10-08)
 
 
