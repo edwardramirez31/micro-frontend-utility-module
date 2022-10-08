@@ -81,6 +81,16 @@ Setup secrets for S3 bucket names and roles to deploy to AWS at GitHub actions f
 - `IMD_HOST`: Import map deployer domain name (without https)
 - `CLOUDFRONT_HOST`: Cloud front domain name (without https). This can also be Route 53, or S3 bucket domain in case you are not using CloudFront to host your import map JSON file.
 
+## Environments
+
+- Create `Development` and `Production` environments and set each one to deploy from `dev` and `master` branches (Selected Branches rule)
+
+- Each environment should have its own S3 Bucket, IAM Role for deployment and CloudFront distribution
+
+- Setup environment secrets at `Development` so that the development `FRONTEND_DEPLOYMENT_ROLE` points to a role that will interact with the development S3 `BUCKET_NAME`
+
+- Change `environment-url` input passed down to deployment workflow so that each env will point to the corresponding CloudFront or Route 53 url
+
 ## Important notes
 
 - Maintain consistency for the project name (all micro service and root project should have the same project name)
